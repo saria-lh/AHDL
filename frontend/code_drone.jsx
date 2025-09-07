@@ -1169,7 +1169,7 @@ export default function Simulation() {
                                       </div>
                                       {job.result && (
                                         <div className="text-xs text-gray-400 mt-1">
-                                          Results: {job.result.results ? `completed` : 'Processing...'}
+                                          Results: {job.result.results ? `completed` : 'completed'}
                                         </div>
                                       )}
                                     </div>

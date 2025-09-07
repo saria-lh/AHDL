@@ -126,12 +126,12 @@ def _run_sionna_step(config: Config, current_drones: List[Drone], step: int):
         p_solver = PathSolver()
         logger.info(f"Path solver created successfully!.... running simulation..")
         paths = p_solver(scene=scene,
-                        max_num_paths_per_src=int(1e6),
-                        samples_per_src=int(1e6),
-                        max_depth=30,
+                        max_num_paths_per_src=int(1e7),
+                        samples_per_src=int(1e7),
+                        max_depth=50,
                         los=True,
                         specular_reflection=True,
-                        diffuse_reflection=False,
+                        diffuse_reflection=True,
                         refraction=True,
                         synthetic_array=False,
                         seed=32)
@@ -147,15 +147,16 @@ def _run_sionna_step(config: Config, current_drones: List[Drone], step: int):
 
         logger.info(f"CIR shape: {cir.shape}, dtype: {cir.dtype}")
 
-        cir_mag = np.abs(cir)
-        cir_phase = np.angle(cir)
+        cir_mag = np.abs(cir).astype(np.float16)
+        cir_phase = np.angle(cir).astype(np.float16)
 
         logger.info(f"CIR magnitude shape: {cir_mag.shape}, dtype: {cir_mag.dtype}")
         logger.info(f"CIR phase shape: {cir_phase.shape}, dtype: {cir_phase.dtype}")
 
-        # base64.b64encode(arr.tobytes()).decode('utf-8')
-        cir_mag_base64 = base64.b64encode(cir_mag.tobytes()).decode('utf-8')
-        cir_phase_base64 = base64.b64encode(cir_phase.tobytes()).decode('utf-8')
+        cir_mag_base64 = base64.b64encode(cir_mag.tobytes(order='C')).decode('utf-8')
+        cir_phase_base64 = base64.b64encode(cir_phase.tobytes(order='C')).decode('utf-8')
+
+        
 
         results = {
             "cir_mag": cir_mag_base64,
@@ -208,9 +209,9 @@ def run_simulation(config: Config, progress_callback=None):
             step_results = _run_sionna_step(config, current_drones, step_idx)
             inner_dict_results = {
                 "drone_locations": intermediate_drone_locations,
-                "results": step_results
+                "step_results": step_results
             }
-            all_results[step_idx] = inner_dict_results
+            all_results[str(step_idx)] = inner_dict_results
             
             # Update progress
             progress = int((step_idx + 1) / total_steps * 100)
@@ -252,9 +253,9 @@ def run_simulation(config: Config, progress_callback=None):
             step_results = _run_sionna_step(config, current_drones, step_id)
             inner_dict_results = {
                 "drone_locations": intermediate_drone_locations,
-                "results": step_results
+                "step_results": step_results
             }
-            all_results[i] = inner_dict_results
+            all_results[str(i)] = inner_dict_results
             
             # Update progress
             combination_count += 1
@@ -262,7 +263,7 @@ def run_simulation(config: Config, progress_callback=None):
             _update_job_status(job_id, "processing", progress)
     
     # Update job status to completed with results
-    _update_job_status(job_id, "completed", 100, {"results": all_results})
+    _update_job_status(job_id, "completed", 100, all_results)
     
     # Return all results
     return all_results
