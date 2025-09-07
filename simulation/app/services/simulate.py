@@ -254,7 +254,7 @@ def run_simulation(config: Config, progress_callback=None):
                 "drone_locations": intermediate_drone_locations,
                 "results": step_results
             }
-            all_results[step_id] = inner_dict_results
+            all_results[i] = inner_dict_results
             
             # Update progress
             combination_count += 1
