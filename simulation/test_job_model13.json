@@ -1,0 +1,30 @@
+{
+
+    "job_id": "test456",
+    "scene_name": "model_13",
+    "simulation_steps": 2,
+    "move_together": true,
+    "drones": [
+      {
+        "location": [0, 0, 0],
+        "has_motion": true,
+        "motion": {
+          "motion_type": "line",
+          "radius": 0.0,
+          "end_position": [1, 1, 1]
+        }
+      }
+    ],
+    "antenna_configs": {
+      "num_rows": 1,
+      "num_cols": 1,
+      "vertical_spacing": 0,
+      "horizontal_spacing": 0,
+      "pattern": "iso",
+      "polarization": "H"
+    },
+    "radio_configs": {
+      "frequency": 6000000000,
+      "bandwidth": 500000000
+    }
+}

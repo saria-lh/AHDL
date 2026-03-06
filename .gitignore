@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments (not project code)
+ahdl/
+AHDL/
+
+# Node.js
+node_modules/
+**/node_modules/
+.next/
+**/.next/
+
+# 3D model binaries (large files)
+*.blend
+*.blend1
+*.glb
+*.gltf
+*.ply
+database/3d_models/*.zip
+
+# Jupyter notebooks
+*.ipynb
+
+# Environment files (may contain secrets)
+.env
+frontend/.env
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Internal docs
+writing_instructions.md

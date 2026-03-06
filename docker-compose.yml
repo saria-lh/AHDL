@@ -1,0 +1,34 @@
+services:
+  database:
+    build: ./database
+    volumes:
+      - ./database/3d_models:/app/3d_models:z
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SIMULATION_URL=http://simulation:8000
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:alpine
+
+  simulation:
+    build: ./simulation
+    environment:
+      - DATABASE_URL=http://database:8000
+    depends_on:
+      - database
+    volumes:
+      - ./database/3d_models:/3d_models:z
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3002:3001"
+    environment:
+      - DATABASE_URL=http://database:8000
+      - SIMULATION_URL=http://simulation:8000
+    depends_on:
+      - database
+      - simulation
