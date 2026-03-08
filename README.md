@@ -1,6 +1,6 @@
-# AHDL Drone Simulation
+# AHDL: A Digital Twin for Under Rubble Aerial Human Detection and Localization
 
-Web-based system for simulating radio wave propagation between drones using Sionna-RT ray tracing. Configure drone positions, define motion paths, select a 3D scene, and compute the channel impulse response (CIR).
+Web-based digital twin simulator for under rubble aerial human detection and localization using Sionna-RT ray tracing. Configure drone positions, define motion paths, select a 3D scene, and compute the channel impulse response (CIR).
 
 ## Architecture
 
@@ -8,7 +8,7 @@ Web-based system for simulating radio wave propagation between drones using Sion
 ┌─────────────┐     ┌──────────────┐     ┌───────────────┐
 │  Frontend   │────>│   Database   │────>│  Simulation   │
 │  (Next.js)  │     │  (FastAPI)   │     │  (Sionna-RT)  │
-│  :3002      │     │  internal    │     │  internal     │
+│  :3001      │     │  internal    │     │  internal     │
 └─────────────┘     └──────┬───────┘     └───────┬───────┘
                            │                     │
                     ┌──────┴───────┐    ┌────────┴────────┐
@@ -19,7 +19,7 @@ Web-based system for simulating radio wave propagation between drones using Sion
 
 | Service    | Host Port | Stack                              |
 |------------|-----------|-------------------------------------|
-| Frontend   | 3002      | Next.js, React Three Fiber, Tailwind |
+| Frontend   | 3001      | Next.js, React Three Fiber, Tailwind |
 | Database   | internal  | FastAPI, Redis                      |
 | Simulation | internal  | FastAPI, Sionna-RT, Mitsuba 3 (LLVM) |
 | Redis      | internal  | Redis Alpine                        |
@@ -37,7 +37,7 @@ make logs      # View logs
 make clean     # Stop and remove containers
 ```
 
-Open http://localhost:3002 after starting.
+Open http://localhost:3001 after starting.
 
 See [SETUP.md](SETUP.md) for platform-specific setup instructions.
 
